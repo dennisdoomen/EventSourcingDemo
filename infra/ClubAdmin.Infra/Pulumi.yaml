@@ -1,0 +1,10 @@
+name: clubadmin
+runtime: dotnet
+description: ClubAdmin Azure infrastructure
+config:
+  azure-native:location:
+    default: westeurope
+  clubadmin:location:
+    default: westeurope
+  clubadmin:environment:
+    default: dev

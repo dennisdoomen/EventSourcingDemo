@@ -1,0 +1,40 @@
+<Solution>
+  <Folder Name="/Files/">
+    <File Path="agents.md" />
+    <File Path=".editorconfig" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="global.json" />
+    <File Path="GitVersion.yml" />
+  </Folder>
+
+  <Folder Name="/Build/">
+    <Project Path="Build/_build.csproj">
+      <Build Project="false" />
+    </Project>
+  </Folder>
+
+  <Folder Name="/src/Shared/">
+    <Project Path="src/Shared/ClubAdmin.Shared/ClubAdmin.Shared.csproj" />
+  </Folder>
+
+  <Folder Name="/src/Members/">
+    <Project Path="src/Members/ClubAdmin.Members/ClubAdmin.Members.csproj" />
+    <Project Path="src/Members/ClubAdmin.Members.Api/ClubAdmin.Members.Api.csproj" />
+    <Project Path="src/Members/ClubAdmin.Members.Specs/ClubAdmin.Members.Specs.csproj" />
+  </Folder>
+
+  <Folder Name="/src/Finances/">
+    <Project Path="src/Finances/ClubAdmin.Finances/ClubAdmin.Finances.csproj" />
+    <Project Path="src/Finances/ClubAdmin.Finances.Api/ClubAdmin.Finances.Api.csproj" />
+    <Project Path="src/Finances/ClubAdmin.Finances.Specs/ClubAdmin.Finances.Specs.csproj" />
+  </Folder>
+
+  <Folder Name="/src/AppHost/">
+    <Project Path="src/AppHost/ClubAdmin.AppHost/ClubAdmin.AppHost.csproj" />
+  </Folder>
+
+  <Folder Name="/infra/">
+    <Project Path="infra/ClubAdmin.Infra/ClubAdmin.Infra.csproj" />
+  </Folder>
+</Solution>

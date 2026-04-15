@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
+    <IsAspireHost>true</IsAspireHost>
+    <UserSecretsId>clubadmin-apphost</UserSecretsId>
+    <RootNamespace>ClubAdmin.AppHost</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.AppHost" />
+    <PackageReference Include="Aspire.Hosting.SqlServer" />
+    <PackageReference Include="Aspire.Hosting.NodeJs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Members\ClubAdmin.Members.Api\ClubAdmin.Members.Api.csproj" />
+    <ProjectReference Include="..\..\Finances\ClubAdmin.Finances.Api\ClubAdmin.Finances.Api.csproj" />
+  </ItemGroup>
+
+</Project>

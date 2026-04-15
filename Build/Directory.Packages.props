@@ -1,0 +1,7 @@
+<Project>
+  <PropertyGroup>
+    <!-- Disable Central Package Management for the Nuke build project,
+         which uses inline Version attributes on PackageReference elements. -->
+    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+</Project>

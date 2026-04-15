@@ -1,0 +1,80 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+  <!-- Roslyn Analyzers (applied globally via Directory.Build.props) -->
+  <ItemGroup>
+    <PackageVersion Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="4.14.0" />
+    <PackageVersion Include="StyleCop.Analyzers" Version="1.2.0-beta.556" />
+    <PackageVersion Include="CSharpGuidelinesAnalyzer" Version="3.8.5" />
+    <PackageVersion Include="Roslynator.Analyzers" Version="4.13.1" />
+    <PackageVersion Include="Meziantou.Analyzer" Version="2.0.203" />
+  </ItemGroup>
+
+  <!-- Microsoft.Extensions -->
+  <ItemGroup>
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.4" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.4" />
+    <PackageVersion Include="Microsoft.Extensions.Logging" Version="9.0.4" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.4" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.4" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.4" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="9.0.4" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.4" />
+  </ItemGroup>
+
+  <!-- Module 1: Member Management — Eventuous + Azure SQL -->
+  <ItemGroup>
+    <PackageVersion Include="Eventuous" Version="0.15.46" />
+    <PackageVersion Include="Eventuous.AspNetCore" Version="0.15.46" />
+    <PackageVersion Include="Eventuous.AspNetCore.Web" Version="0.15.46" />
+    <PackageVersion Include="Eventuous.SqlServer" Version="0.15.46" />
+    <PackageVersion Include="Microsoft.Data.SqlClient" Version="5.2.2" />
+  </ItemGroup>
+
+  <!-- Module 2: Financial Transactions — Wolverine + EventStoreDB + Liquid Projections + Dapper -->
+  <ItemGroup>
+    <PackageVersion Include="WolverineFx" Version="3.6.0" />
+    <PackageVersion Include="WolverineFx.Http" Version="3.6.0" />
+    <PackageVersion Include="LiquidProjections" Version="9.0.3" />
+    <PackageVersion Include="LiquidProjections.EventStoreDB" Version="9.0.3" />
+    <PackageVersion Include="EventStore.Client.Grpc.Streams" Version="24.6.0" />
+    <PackageVersion Include="Dapper" Version="2.1.35" />
+  </ItemGroup>
+
+  <!-- Azure Functions — isolated worker model -->
+  <ItemGroup>
+    <PackageVersion Include="Microsoft.Azure.Functions.Worker" Version="2.0.0" />
+    <PackageVersion Include="Microsoft.Azure.Functions.Worker.Extensions.Http" Version="3.2.0" />
+    <PackageVersion Include="Microsoft.Azure.Functions.Worker.Extensions.Http.AspNetCore" Version="2.0.0" />
+    <PackageVersion Include="Microsoft.Azure.Functions.Worker.Sdk" Version="2.0.0" />
+    <PackageVersion Include="Microsoft.Azure.Functions.Worker.Extensions.OpenApi" Version="1.0.0-preview3" />
+    <PackageVersion Include="Microsoft.Azure.Functions.Worker.Extensions.Timer" Version="4.3.1" />
+  </ItemGroup>
+
+  <!-- .NET Aspire — local development orchestration only -->
+  <ItemGroup>
+    <PackageVersion Include="Aspire.Hosting.AppHost" Version="9.3.1" />
+    <PackageVersion Include="Aspire.Hosting.SqlServer" Version="9.3.1" />
+    <PackageVersion Include="Aspire.Hosting.NodeJs" Version="9.3.1" />
+  </ItemGroup>
+
+  <!-- Pulumi — Azure infrastructure as code -->
+  <ItemGroup>
+    <PackageVersion Include="Pulumi" Version="3.73.0" />
+    <PackageVersion Include="Pulumi.AzureNative" Version="2.88.0" />
+  </ItemGroup>
+
+  <!-- Testing -->
+  <ItemGroup>
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.0" />
+    <PackageVersion Include="xunit" Version="2.9.3" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="3.0.1" />
+    <PackageVersion Include="FluentAssertions" Version="8.2.0" />
+    <PackageVersion Include="FakeItEasy" Version="8.3.0" />
+    <PackageVersion Include="Mockly" Version="1.1.1" />
+    <PackageVersion Include="coverlet.collector" Version="6.0.4" />
+    <PackageVersion Include="coverlet.msbuild" Version="6.0.4" />
+  </ItemGroup>
+</Project>
