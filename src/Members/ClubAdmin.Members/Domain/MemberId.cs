@@ -1,3 +1,5 @@
+using Eventuous;
+
 namespace ClubAdmin.Members.Domain;
 
 /// <summary>

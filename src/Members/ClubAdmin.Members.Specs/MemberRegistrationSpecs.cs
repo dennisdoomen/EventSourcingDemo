@@ -25,7 +25,7 @@ public class MemberRegistrationSpecs
             membershipType: MembershipType.Regular);
 
         // Assert
-        var events = member.Changes.Select(c => c.Payload).ToList();
+        var events = member.Changes.ToList();
         events.Should().ContainSingle().Which.Should().BeOfType<MemberRegistered>();
 
         var registered = (MemberRegistered)events[0];
@@ -48,7 +48,7 @@ public class MemberRegistrationSpecs
             new DateOnly(1980, 1, 1),
             MembershipType.Sponsor);
 
-        var evt = member.Changes.Select(c => c.Payload).OfType<MemberRegistered>().Single();
+        var evt = member.Changes.OfType<MemberRegistered>().Single();
         evt.MembershipType.Should().Be(MembershipType.Sponsor.ToString());
     }
 

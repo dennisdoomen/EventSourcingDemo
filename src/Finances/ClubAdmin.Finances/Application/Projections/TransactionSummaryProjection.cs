@@ -1,6 +1,5 @@
 using ClubAdmin.Finances.Domain.Events;
 using Dapper;
-using LiquidProjections;
 using Microsoft.Data.SqlClient;
 
 namespace ClubAdmin.Finances.Application.Projections;

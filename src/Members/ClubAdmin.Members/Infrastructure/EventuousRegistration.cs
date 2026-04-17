@@ -1,7 +1,6 @@
 using ClubAdmin.Members.Application;
 using ClubAdmin.Members.Application.Projections;
-using Eventuous;
-using Eventuous.SqlServer;
+using Eventuous.SqlServer.Projections;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ClubAdmin.Members.Infrastructure;
@@ -13,12 +12,12 @@ public static class EventuousRegistration
 {
     public static IServiceCollection AddMembersModule(this IServiceCollection services, string connectionString)
     {
-        services.AddEventStoreClient<SqlServerEventStore>(sp =>
-            new SqlServerEventStore(connectionString));
+        services.AddEventuousSqlServer(connectionString, "dbo", initializeDatabase: true);
 
-        services.AddCommandService<MemberCommandService>();
+        services.AddSingleton<MemberCommandService>();
 
-        services.AddSingleton<MemberListProjection>(_ => new MemberListProjection(connectionString));
+        services.AddSingleton<MemberListProjection>(
+            _ => new MemberListProjection(new SqlServerConnectionOptions(connectionString, "dbo")));
 
         return services;
     }

@@ -1,6 +1,7 @@
-using ClubAdmin.Members.Domain;
 using ClubAdmin.Members.Domain.Events;
-using Eventuous.Projections.SqlServer;
+using Eventuous;
+using Eventuous.SqlServer.Projections;
+using Eventuous.Subscriptions.Context;
 using Microsoft.Data.SqlClient;
 
 namespace ClubAdmin.Members.Application.Projections;
@@ -8,18 +9,20 @@ namespace ClubAdmin.Members.Application.Projections;
 /// <summary>
 /// Projects member events to the Members read-model table in Azure SQL.
 /// </summary>
-public class MemberListProjection : SqlServerProjection
+public class MemberListProjection : SqlServerProjector
 {
-    public MemberListProjection(string connectionString)
-        : base(connectionString)
+    public MemberListProjection(SqlServerConnectionOptions options)
+        : base(options, TypeMap.Instance)
     {
         On<MemberRegistered>(Project);
         On<MemberProfileUpdated>(Project);
         On<MembershipTerminated>(Project);
     }
 
-    private static async Task Project(SqlConnection connection, MemberRegistered evt, CancellationToken ct)
+    private static SqlCommand Project(SqlConnection connection, MessageConsumeContext<MemberRegistered> context)
     {
+        var evt = context.Message!;
+
         const string sql = """
             MERGE Members AS target
             USING (SELECT @MemberId, @ClubId, @FirstName, @LastName, @DateOfBirth, @MembershipType, @RegisteredOn)
@@ -31,7 +34,7 @@ public class MemberListProjection : SqlServerProjection
                         source.DateOfBirth, source.MembershipType, source.RegisteredOn, 1);
             """;
 
-        await using var cmd = new SqlCommand(sql, connection);
+        var cmd = new SqlCommand(sql, connection);
         cmd.Parameters.AddWithValue("@MemberId", evt.MemberId);
         cmd.Parameters.AddWithValue("@ClubId", evt.ClubId);
         cmd.Parameters.AddWithValue("@FirstName", evt.FirstName);
@@ -39,39 +42,40 @@ public class MemberListProjection : SqlServerProjection
         cmd.Parameters.AddWithValue("@DateOfBirth", evt.DateOfBirth.ToDateTime(TimeOnly.MinValue));
         cmd.Parameters.AddWithValue("@MembershipType", evt.MembershipType);
         cmd.Parameters.AddWithValue("@RegisteredOn", evt.RegisteredOn.ToDateTime(TimeOnly.MinValue));
-
-        await cmd.ExecuteNonQueryAsync(ct);
+        return cmd;
     }
 
-    private static async Task Project(SqlConnection connection, MemberProfileUpdated evt, CancellationToken ct)
+    private static SqlCommand Project(SqlConnection connection, MessageConsumeContext<MemberProfileUpdated> context)
     {
+        var evt = context.Message!;
+
         const string sql = """
             UPDATE Members
             SET FirstName = @FirstName, LastName = @LastName, DateOfBirth = @DateOfBirth
             WHERE MemberId = @MemberId;
             """;
 
-        await using var cmd = new SqlCommand(sql, connection);
+        var cmd = new SqlCommand(sql, connection);
         cmd.Parameters.AddWithValue("@MemberId", evt.MemberId);
         cmd.Parameters.AddWithValue("@FirstName", evt.FirstName);
         cmd.Parameters.AddWithValue("@LastName", evt.LastName);
         cmd.Parameters.AddWithValue("@DateOfBirth", evt.DateOfBirth.ToDateTime(TimeOnly.MinValue));
-
-        await cmd.ExecuteNonQueryAsync(ct);
+        return cmd;
     }
 
-    private static async Task Project(SqlConnection connection, MembershipTerminated evt, CancellationToken ct)
+    private static SqlCommand Project(SqlConnection connection, MessageConsumeContext<MembershipTerminated> context)
     {
+        var evt = context.Message!;
+
         const string sql = """
             UPDATE Members
             SET IsActive = 0, TerminatedOn = @EndDate
             WHERE MemberId = @MemberId;
             """;
 
-        await using var cmd = new SqlCommand(sql, connection);
+        var cmd = new SqlCommand(sql, connection);
         cmd.Parameters.AddWithValue("@MemberId", evt.MemberId);
         cmd.Parameters.AddWithValue("@EndDate", evt.EndDate.ToDateTime(TimeOnly.MinValue));
-
-        await cmd.ExecuteNonQueryAsync(ct);
+        return cmd;
     }
 }

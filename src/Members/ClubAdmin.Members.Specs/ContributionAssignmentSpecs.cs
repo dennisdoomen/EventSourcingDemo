@@ -32,7 +32,7 @@ public class ContributionAssignmentSpecs
             PaymentFrequency.Monthly,
             Money.Of(25m));
 
-        var evt = member.Changes.Select(c => c.Payload)
+        var evt = member.Changes
             .OfType<ContributionCategoryAssigned>()
             .Single();
 
@@ -53,7 +53,7 @@ public class ContributionAssignmentSpecs
             Money.Of(200m),
             partialPercentage: 50m);
 
-        var evt = member.Changes.Select(c => c.Payload)
+        var evt = member.Changes
             .OfType<ContributionCategoryAssigned>()
             .Single();
 

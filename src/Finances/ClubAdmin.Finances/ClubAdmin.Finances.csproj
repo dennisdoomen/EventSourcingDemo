@@ -9,7 +9,6 @@
     <PackageReference Include="WolverineFx" />
     <PackageReference Include="WolverineFx.Http" />
     <PackageReference Include="LiquidProjections" />
-    <PackageReference Include="LiquidProjections.EventStoreDB" />
     <PackageReference Include="EventStore.Client.Grpc.Streams" />
     <PackageReference Include="Dapper" />
     <PackageReference Include="Microsoft.Data.SqlClient" />

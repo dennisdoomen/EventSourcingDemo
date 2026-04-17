@@ -16,11 +16,12 @@ var membersApi = builder.AddProject<Projects.ClubAdmin_Members_Api>("members-api
 
 var financesApi = builder.AddProject<Projects.ClubAdmin_Finances_Api>("finances-api")
     .WithReference(sqlServer)
-    .WithReference(eventStoreDb)
+    .WithReference(eventStoreDb.GetEndpoint("http"))
     .WaitFor(sqlServer)
     .WaitFor(eventStoreDb);
 
-builder.AddNpmApp("club-admin-ui", "../../../frontend/club-admin-ui", "dev")
+builder.AddJavaScriptApp("club-admin-ui", "../../../frontend/club-admin-ui", "dev")
+    .WithPnpm()
     .WithReference(membersApi)
     .WithReference(financesApi)
     .WithEnvironment("NODE_ENV", "development")

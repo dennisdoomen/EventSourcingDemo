@@ -12,9 +12,10 @@ public class MemberCommandService : CommandService<Member, MemberState, MemberId
 {
     public MemberCommandService(IEventStore store) : base(store)
     {
-        OnNewAsync<RegisterMember>(
-            cmd => new MemberId(cmd.MemberId),
-            (member, cmd, _) =>
+        On<RegisterMember>()
+            .InState(ExpectedState.New)
+            .GetId(cmd => new MemberId(cmd.MemberId))
+            .ActAsync((member, cmd, _) =>
             {
                 member.Register(
                     new MemberId(cmd.MemberId),
@@ -27,25 +28,28 @@ public class MemberCommandService : CommandService<Member, MemberState, MemberId
                 return Task.CompletedTask;
             });
 
-        OnExistingAsync<UpdateMemberProfile>(
-            cmd => new MemberId(cmd.MemberId),
-            (member, cmd, _) =>
+        On<UpdateMemberProfile>()
+            .InState(ExpectedState.Existing)
+            .GetId(cmd => new MemberId(cmd.MemberId))
+            .ActAsync((member, cmd, _) =>
             {
                 member.UpdateProfile(cmd.FirstName, cmd.LastName, cmd.DateOfBirth);
                 return Task.CompletedTask;
             });
 
-        OnExistingAsync<TerminateMembership>(
-            cmd => new MemberId(cmd.MemberId),
-            (member, cmd, _) =>
+        On<TerminateMembership>()
+            .InState(ExpectedState.Existing)
+            .GetId(cmd => new MemberId(cmd.MemberId))
+            .ActAsync((member, cmd, _) =>
             {
                 member.Terminate(cmd.Reason);
                 return Task.CompletedTask;
             });
 
-        OnExistingAsync<AssignContributionCategory>(
-            cmd => new MemberId(cmd.MemberId),
-            (member, cmd, _) =>
+        On<AssignContributionCategory>()
+            .InState(ExpectedState.Existing)
+            .GetId(cmd => new MemberId(cmd.MemberId))
+            .ActAsync((member, cmd, _) =>
             {
                 member.AssignContributionCategory(
                     Enum.Parse<Domain.ContributionCategory>(cmd.Category),
@@ -56,9 +60,10 @@ public class MemberCommandService : CommandService<Member, MemberState, MemberId
                 return Task.CompletedTask;
             });
 
-        OnExistingAsync<UpdateBankingDetails>(
-            cmd => new MemberId(cmd.MemberId),
-            (member, cmd, _) =>
+        On<UpdateBankingDetails>()
+            .InState(ExpectedState.Existing)
+            .GetId(cmd => new MemberId(cmd.MemberId))
+            .ActAsync((member, cmd, _) =>
             {
                 member.UpdateBankingDetails(Domain.BankingDetails.Create(cmd.Iban, cmd.AccountHolder));
                 return Task.CompletedTask;

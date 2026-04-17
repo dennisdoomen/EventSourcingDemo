@@ -25,9 +25,11 @@ public class MemberFunctions(MemberCommandService commandService)
         }
 
         var result = await commandService.Handle(command, cancellationToken);
-        return result.Success
-            ? new CreatedAtRouteResult("GetMember", new { id = command.MemberId }, null)
-            : new BadRequestObjectResult(result.ErrorMessage);
+        if (result.Success)
+            return new CreatedAtRouteResult("GetMember", new { id = command.MemberId }, null);
+
+        result.TryGetError(out var error);
+        return new BadRequestObjectResult(error?.ErrorMessage ?? "An error occurred.");
     }
 
     [Function("UpdateMemberProfile")]
@@ -47,7 +49,11 @@ public class MemberFunctions(MemberCommandService commandService)
 
         var command = body with { MemberId = id };
         var result = await commandService.Handle(command, cancellationToken);
-        return result.Success ? new OkResult() : new BadRequestObjectResult(result.ErrorMessage);
+        if (result.Success)
+            return new OkResult();
+
+        result.TryGetError(out var error1);
+        return new BadRequestObjectResult(error1?.ErrorMessage ?? "An error occurred.");
     }
 
     [Function("TerminateMembership")]
@@ -61,7 +67,11 @@ public class MemberFunctions(MemberCommandService commandService)
         var body = await req.ReadFromJsonAsync<TerminateMembership>(cancellationToken);
         var command = new TerminateMembership(id, body?.Reason ?? "No reason provided.");
         var result = await commandService.Handle(command, cancellationToken);
-        return result.Success ? new NoContentResult() : new BadRequestObjectResult(result.ErrorMessage);
+        if (result.Success)
+            return new NoContentResult();
+
+        result.TryGetError(out var error2);
+        return new BadRequestObjectResult(error2?.ErrorMessage ?? "An error occurred.");
     }
 
     [Function("AssignContributionCategory")]
@@ -81,6 +91,10 @@ public class MemberFunctions(MemberCommandService commandService)
 
         var command = body with { MemberId = id };
         var result = await commandService.Handle(command, cancellationToken);
-        return result.Success ? new OkResult() : new BadRequestObjectResult(result.ErrorMessage);
+        if (result.Success)
+            return new OkResult();
+
+        result.TryGetError(out var error3);
+        return new BadRequestObjectResult(error3?.ErrorMessage ?? "An error occurred.");
     }
 }
